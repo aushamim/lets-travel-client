@@ -1,12 +1,17 @@
 import React from "react";
+import useAuth from "../../Hooks/useAuth";
 import Profile from "./Profile";
 
 const AdminPanel = () => {
+  const { setAdminView, user } = useAuth();
   return (
     <div className="p-5 sticky top-16">
-      <Profile></Profile>
+      {user.email && <Profile></Profile>}
       <div className="bg-white p-5 mt-5 rounded-lg divide-y divide-dashed">
         <button
+          onClick={() => {
+            setAdminView("posts");
+          }}
           type="button"
           data-mdb-ripple="true"
           data-mdb-ripple-color="#fcd34d"
@@ -16,6 +21,9 @@ const AdminPanel = () => {
           <p className="font-medium text-sm">All Posts</p>
         </button>
         <button
+          onClick={() => {
+            setAdminView("admin");
+          }}
           type="button"
           data-mdb-ripple="true"
           data-mdb-ripple-color="#fcd34d"

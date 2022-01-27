@@ -1,7 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
 
 const Header = () => {
+  const { logout, user } = useAuth();
   return (
     <nav className="shadow-sm bg-white flex p-2 justify-around items-center z-10 sticky top-0">
       <div>
@@ -130,54 +131,61 @@ const Header = () => {
           </svg>
           <p className="hidden md:block font-medium">Dashboard</p>
         </Link>
-        {/* Login Icon */}
-        <Link
-          to="/login"
-          className="transition ease-in-out duration-500 p-2 mx-2 rounded-full hover:bg-amber-300 md:hover:text-amber-400 md:hover:bg-white"
-          title="Login"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-login md:hidden"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="#2c3e50"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-            <path d="M20 12h-13l3 -3m0 6l-3 -3" />
-          </svg>
-          <p className="hidden md:block font-medium">Log In</p>
-        </Link>
-        {/* Logout Icon */}
-        <button
-          // onClick={logout}
-          className="transition ease-in-out duration-500 p-2 mx-2 rounded-full hover:bg-amber-300 md:hover:text-amber-400 md:hover:bg-white"
-          title="Logout"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-logout md:hidden"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="#2c3e50"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-            <path d="M7 12h14l-3 -3m0 6l3 -3" />
-          </svg>
-          <p className="hidden md:block font-medium">Log Out</p>
-        </button>
+        {user.email ? (
+          <>
+            {/* Logout Icon */}
+            <button
+              onClick={logout}
+              className="transition ease-in-out duration-500 p-2 mx-2 rounded-full hover:bg-amber-300 md:hover:text-amber-400 md:hover:bg-white"
+              title="Logout"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-logout md:hidden"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="#2c3e50"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                <path d="M7 12h14l-3 -3m0 6l3 -3" />
+              </svg>
+              <p className="hidden md:block font-medium">Log Out</p>
+            </button>
+          </>
+        ) : (
+          <>
+            {/* Login Icon */}
+            <Link
+              to="/login"
+              className="transition ease-in-out duration-500 p-2 mx-2 rounded-full hover:bg-amber-300 md:hover:text-amber-400 md:hover:bg-white"
+              title="Login"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-login md:hidden"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="#2c3e50"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                <path d="M20 12h-13l3 -3m0 6l-3 -3" />
+              </svg>
+              <p className="hidden md:block font-medium">Log In</p>
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

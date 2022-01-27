@@ -15,44 +15,30 @@ import firebaseAuthentication from "../Firebase/FirebaseInit";
 firebaseAuthentication();
 
 const useFirebase = () => {
-  // Post Type
-  const [postType, setPostType] = useState("");
-
-  // View Type
-  const [view, setView] = useState(false);
-
-  // declare user state
+  // New
+  // New
+  // New
   const [user, setUser] = useState({});
-  // user state change state
+  const [adminView, setAdminView] = useState("posts");
   const [isLoading, setIsLoading] = useState(true);
-  // error state
   const [authError, setAuthError] = useState("");
 
-  const [singleUser, setSingleUser] = useState({});
-
-  // Post Type
-  const handlePostTypeText = () => {
-    setPostType("text");
+  // google sign in
+  const signInWithGoogle = (location, navigate) => {
+    setIsLoading(true);
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+        saveUser(user.email, user.displayName, user.photoURL, "PUT");
+        setAuthError("");
+        const destination = location?.state?.from || "/";
+        navigate(destination);
+      })
+      .catch((error) => {
+        setAuthError(error.message);
+      })
+      .finally(() => setIsLoading(false));
   };
-  const handlePostTypeImage = () => {
-    setPostType("image");
-  };
-  const handlePostType = () => {
-    setPostType("others");
-  };
-
-  // View Type
-  const handleViewType = (x) => {
-    setView(x);
-  };
-
-  //date
-
-  // declare auth
-  const auth = getAuth();
-
-  // google auth
-  const googleProvider = new GoogleAuthProvider();
 
   // register new user
   const registerUser = (email, password, name, navigate) => {
@@ -99,22 +85,12 @@ const useFirebase = () => {
       .finally(() => setIsLoading(false));
   };
 
-  // google sign in
-  const signInWithGoogle = (location, navigate) => {
-    setIsLoading(true);
-    signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        const user = result.user;
-        saveUser(user.email, user.displayName, user.photoURL, "PUT");
-        setAuthError("");
-        const destination = location?.state?.from || "/";
-        navigate(destination);
-      })
-      .catch((error) => {
-        setAuthError(error.message);
-      })
-      .finally(() => setIsLoading(false));
-  };
+  // declare auth
+  const auth = getAuth();
+
+  // google auth
+  const googleProvider = new GoogleAuthProvider();
+
   // observer user state
   useEffect(() => {
     const unsubscribed = onAuthStateChanged(auth, (user) => {
@@ -154,14 +130,44 @@ const useFirebase = () => {
     }).then();
   };
 
+  // New
+  // New
+  // New
+
+  // Post Type
+  const [postType, setPostType] = useState("");
+
+  // View Type
+  const [view, setView] = useState(false);
+
+  // declare user state
+
+  // user state change state
+
+  // error state
+
+  const [singleUser, setSingleUser] = useState({});
+
+  // Post Type
+  const handlePostTypeText = () => {
+    setPostType("text");
+  };
+  const handlePostTypeImage = () => {
+    setPostType("image");
+  };
+  const handlePostType = () => {
+    setPostType("others");
+  };
+
+  // View Type
+  const handleViewType = (x) => {
+    setView(x);
+  };
+
+  console.log(user);
+  //date
+
   return {
-    registerUser,
-    authError,
-    loginUser,
-    signInWithGoogle,
-    logout,
-    user,
-    isLoading,
     postType,
     view,
     handleViewType,
@@ -170,6 +176,16 @@ const useFirebase = () => {
     handlePostType,
     setSingleUser,
     singleUser,
+
+    registerUser,
+    authError,
+    loginUser,
+    signInWithGoogle,
+    logout,
+    user,
+    isLoading,
+    adminView,
+    setAdminView,
   };
 };
 

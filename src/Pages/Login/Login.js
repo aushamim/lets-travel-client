@@ -1,9 +1,31 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../Components/Header/Header";
+import useAuth from "../../Hooks/useAuth";
 
 const Login = () => {
   const [newUser, setNewUser] = useState(false);
-  console.log(newUser);
+  const { signInWithGoogle, registerUser, authError, loginUser } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleGoogleSignIn = () => {
+    signInWithGoogle(location, navigate);
+  };
+
+  const handleRegister = () => {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    registerUser(email, password, name, navigate);
+  };
+
+  const handleLogin = () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    loginUser(email, password, location, navigate);
+  };
+
   return (
     <div>
       <Header></Header>
@@ -18,7 +40,7 @@ const Login = () => {
                 <input
                   type="text"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="floatingInput name"
+                  id="name"
                   placeholder="name"
                 />
                 <label className="text-gray-700">Name</label>
@@ -27,7 +49,7 @@ const Login = () => {
                 <input
                   type="email"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="floatingInput email"
+                  id="email"
                   placeholder="name@example.com"
                 />
                 <label className="text-gray-700">Email address</label>
@@ -36,15 +58,41 @@ const Login = () => {
                 <input
                   type="password"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="floatingPassword password"
+                  id="password"
                   placeholder="Password"
                 />
                 <label className="text-gray-700">Password</label>
               </div>
             </div>
           </div>
+          {authError && (
+            <div className="flex justify-center">
+              <div
+                class="bg-red-100 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center xl:w-96"
+                role="alert"
+              >
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  data-icon="times-circle"
+                  class="w-4 h-4 mr-2 fill-current"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"
+                  ></path>
+                </svg>
+                {authError}
+              </div>
+            </div>
+          )}
           <div className="flex justify-center">
             <button
+              onClick={handleGoogleSignIn}
               type="button"
               data-mdb-ripple="true"
               data-mdb-ripple-color="#fcd34d"
@@ -68,6 +116,7 @@ const Login = () => {
               </svg>
             </button>
             <button
+              onClick={handleRegister}
               type="button"
               data-mdb-ripple="true"
               data-mdb-ripple-color="#fcd34d"
@@ -100,7 +149,7 @@ const Login = () => {
                 <input
                   type="email"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="floatingInput email"
+                  id="email"
                   placeholder="name@example.com"
                 />
                 <label className="text-gray-700">Email address</label>
@@ -109,15 +158,41 @@ const Login = () => {
                 <input
                   type="password"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="floatingPassword password"
+                  id="password"
                   placeholder="Password"
                 />
                 <label className="text-gray-700">Password</label>
               </div>
             </div>
           </div>
+          {authError && (
+            <div className="flex justify-center">
+              <div
+                class="bg-red-100 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center xl:w-96"
+                role="alert"
+              >
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  data-icon="times-circle"
+                  class="w-4 h-4 mr-2 fill-current"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"
+                  ></path>
+                </svg>
+                {authError}
+              </div>
+            </div>
+          )}
           <div className="flex justify-center">
             <button
+              onClick={handleGoogleSignIn}
               type="button"
               data-mdb-ripple="true"
               data-mdb-ripple-color="#fcd34d"
@@ -141,6 +216,7 @@ const Login = () => {
               </svg>
             </button>
             <button
+              onClick={handleLogin}
               type="button"
               data-mdb-ripple="true"
               data-mdb-ripple-color="#fcd34d"

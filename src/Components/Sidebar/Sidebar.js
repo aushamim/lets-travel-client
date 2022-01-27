@@ -1,10 +1,12 @@
 import React from "react";
+import useAuth from "../../Hooks/useAuth";
 import NewPostPrompt from "../NewPost/NewPostPrompt";
 import Profile from "./Profile";
 import "./Sidebar.css";
 import TopPlaces from "./TopPlaces";
 
 const Sidebar = () => {
+  const { user } = useAuth();
   return (
     <div className="sidebar p-5 sticky">
       <div className="sidebar-text hidden md:flex text-gray-600 justify-center flex-col">
@@ -13,8 +15,12 @@ const Sidebar = () => {
           Around the world. And tell the tale.
         </p>
       </div>
-      <Profile></Profile>
-      <NewPostPrompt></NewPostPrompt>
+      {user.email && (
+        <>
+          <Profile></Profile>
+          <NewPostPrompt></NewPostPrompt>
+        </>
+      )}
       <TopPlaces></TopPlaces>
     </div>
   );
