@@ -1,6 +1,10 @@
 import React from "react";
+import useAuth from "../../Hooks/useAuth";
 
 const AllPosts = () => {
+  const { posts } = useAuth();
+  // posts.map((post) => console.log(post));
+  // console.log(posts);
   return (
     <div className="bg-white rounded-lg p-5 m-5">
       {/* Modal */}
@@ -57,62 +61,100 @@ const AllPosts = () => {
             <th className="p-2">Post ID</th>
             <th className="p-2">Time</th>
             <th className="p-2">User</th>
+            <th className="p-2">Status</th>
             <th className="p-2">Actions</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-dashed">
           {/* Repeat Start */}
-          <tr className="divide-x divide-dashed">
-            <td className="p-2">12345678910</td>
-            <td className="p-2">12 AM</td>
-            <td className="p-2">Kakku</td>
-            <td className="p-2">
-              <div className="flex justify-evenly items-center">
-                <>
-                  <button
-                    type="button"
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="orange"
-                    data-mdb-ripple-duration="1000ms"
-                    className="text-center p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg bg-amber-100"
-                  >
-                    <p className="font-medium text-sm">View</p>
-                  </button>
-                  <button
-                    type="button"
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="green"
-                    data-mdb-ripple-duration="1000ms"
-                    className="text-center p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg bg-green-100"
-                  >
-                    <p className="font-medium text-sm">Approve</p>
-                  </button>
-                  <button
-                    type="button"
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="red"
-                    data-mdb-ripple-duration="1000ms"
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdropDelete"
-                    className="text-venter p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg bg-red-100"
-                  >
-                    <p className="font-medium text-sm">Delete</p>
-                  </button>
-                </>
-                <>
-                  <button
-                    type="button"
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="green"
-                    data-mdb-ripple-duration="1000ms"
-                    className="text-center p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg bg-green-100"
-                  >
-                    <p className="font-medium text-sm">Approved</p>
-                  </button>
-                </>
+          {posts.length === 0 ? (
+            <div className="flex items-center justify-center">
+              <div
+                class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-amber-600"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
               </div>
-            </td>
-          </tr>
+            </div>
+          ) : (
+            <>
+              {posts.map((post) => (
+                <tr key={post._id} className="divide-x divide-dashed">
+                  <td className="p-2">{post._id}</td>
+                  <td className="p-2">12 AM</td>
+                  <td className="p-2">{post.author}</td>
+                  <td className="p-2">
+                    <div className="flex items-center justify-center">
+                      {post.status === "pending" ? (
+                        <>
+                          <button
+                            type="button"
+                            data-mdb-ripple="true"
+                            data-mdb-ripple-color="green"
+                            data-mdb-ripple-duration="1000ms"
+                            className="text-center p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg"
+                          >
+                            <p className="font-medium text-sm">Pending</p>
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            type="button"
+                            data-mdb-ripple="true"
+                            data-mdb-ripple-color="green"
+                            data-mdb-ripple-duration="1000ms"
+                            className="text-center p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg"
+                          >
+                            <p className="font-medium text-sm">Approved</p>
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                  <td className="p-2">
+                    <div className="flex justify-evenly items-center">
+                      <>
+                        <button
+                          type="button"
+                          data-mdb-ripple="true"
+                          data-mdb-ripple-color="orange"
+                          data-mdb-ripple-duration="1000ms"
+                          className="text-center p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg bg-amber-100"
+                        >
+                          <p className="font-medium text-sm">View</p>
+                        </button>
+                        {post.status === "pending" ? (
+                          <button
+                            type="button"
+                            data-mdb-ripple="true"
+                            data-mdb-ripple-color="green"
+                            data-mdb-ripple-duration="1000ms"
+                            className="text-center p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg bg-green-100"
+                          >
+                            <p className="font-medium text-sm">Approve</p>
+                          </button>
+                        ) : (
+                          <></>
+                        )}
+                        <button
+                          type="button"
+                          data-mdb-ripple="true"
+                          data-mdb-ripple-color="red"
+                          data-mdb-ripple-duration="1000ms"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdropDelete"
+                          className="text-venter p-2.5 leading-tight transition duration-150 ease-in-out rounded-lg bg-red-100"
+                        >
+                          <p className="font-medium text-sm">Delete</p>
+                        </button>
+                      </>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </>
+          )}
           {/* Repeat End */}
         </tbody>
       </table>

@@ -18,10 +18,28 @@ const useFirebase = () => {
   // New
   // New
   // New
+
   const [user, setUser] = useState({});
   const [adminView, setAdminView] = useState("posts");
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState("");
+
+  // get users
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+  }, []);
+
+  // get users
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/posts")
+      .then((res) => res.json())
+      .then((data) => data.sort((a, b) => b.time - a.time))
+      .then((sortedData) => setPosts(sortedData));
+  }, []);
 
   // google sign in
   const signInWithGoogle = (location, navigate) => {
@@ -119,7 +137,7 @@ const useFirebase = () => {
 
   // saved user data to DB function
   const saveUser = (email, displayName, photoURL, method) => {
-    const user = { email, displayName, photoURL };
+    const user = { email, displayName, photoURL, role: "user" };
 
     fetch("http://localhost:5000/users", {
       method: method,
@@ -164,7 +182,6 @@ const useFirebase = () => {
     setView(x);
   };
 
-  console.log(user);
   //date
 
   return {
@@ -186,6 +203,10 @@ const useFirebase = () => {
     isLoading,
     adminView,
     setAdminView,
+    users,
+    setUsers,
+    posts,
+    setPosts,
   };
 };
 

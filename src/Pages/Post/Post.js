@@ -1,12 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../../Components/Footer/Footer";
 import Header from "../../Components/Header/Header";
 import Profile from "../../Components/Sidebar/Profile";
 import useAuth from "../../Hooks/useAuth";
 
 const Post = () => {
-  const { user } = useAuth();
+  const { user, posts } = useAuth();
+  const { id } = useParams();
+  const post = posts.filter((x) => x._id === id);
+
   return (
     <>
       <Header></Header>
@@ -37,30 +40,21 @@ const Post = () => {
 
           <div className="bg-white rounded-lg p-5 mt-5 mb-10 grid grid-cols-3">
             <div className="p-2">
-              <img
-                className="w-full rounded-lg"
-                src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-                alt=""
-              />
+              <img className="w-full rounded-lg" src={post[0].image} alt="" />
             </div>
             <div className="col-span-2 p-2 divide-y divide-dashed">
               <div className="p-2">
-                <p className="text-2xl font-medium">Title</p>
+                <p className="text-2xl font-medium">{post[0].title}</p>
                 <p className="text-xs text-gray-400">
-                  Location &#183; Author &#183; Time
+                  {post[0].location} &#183; {post[0].author} &#183; Time
                 </p>
               </div>
               <div className="p-2 text-sm">
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Molestias voluptas voluptatum rem ex maiores aliquid error
-                  quis beatae sequi architecto! Doloribus dolor facilis possimus
-                  ipsum eos sit saepe quo expedita!
-                </p>
+                <p>{post[0].description}</p>
               </div>
               <div className="p-5 grid grid-cols-2">
                 <div className="flex items-center justify-center font-semibold">
-                  Rating: 5&nbsp;
+                  Rating: {post[0].rating}&nbsp;
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="icon icon-tabler icon-tabler-star"
@@ -78,7 +72,7 @@ const Post = () => {
                   </svg>
                 </div>
                 <div className="flex items-center justify-center font-semibold">
-                  Cost: $500
+                  Cost: $<>{post[0].cost}</>
                 </div>
               </div>
             </div>

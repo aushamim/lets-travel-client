@@ -21,7 +21,7 @@ const Home = () => {
           <Sidebar></Sidebar>
         </div>
       </div>
-      <Pagination></Pagination>
+      {/* <Pagination></Pagination> */}
       <Footer></Footer>
     </>
   );

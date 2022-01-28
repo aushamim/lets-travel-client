@@ -1,6 +1,18 @@
 import React from "react";
 
 const NewPostBox = () => {
+  const post = {
+    time: 123456789101112,
+    author: "Kakku",
+    location: "Bangladesh",
+    rating: 5,
+    cost: 100,
+    title: "Twilight",
+    description:
+      "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
+    image: "",
+  };
+
   return (
     <div>
       <div

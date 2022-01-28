@@ -1,29 +1,30 @@
 import React from "react";
+import useAuth from "../../Hooks/useAuth";
 
 const Profile = () => {
+  const { users, user } = useAuth();
+  const loggedUser = users.filter((x) => x.email === user.email);
   return (
     <div className="bg-white rounded-lg p-5 mb-5">
       <div className="grid grid-cols-3 gap-5 items-center">
         <div className="col-span-2">
-          <p className="font-medium text-3xl">Kuddus Ali</p>
-          <span className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-purple-600 text-white rounded-full">
-            Admin
-          </span>
+          <p className="font-medium text-3xl">{loggedUser[0].displayName}</p>
+          {loggedUser[0].role === "admin" && (
+            <span className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-purple-600 text-white rounded-full">
+              Admin
+            </span>
+          )}
         </div>
         <div className="rounded-lg">
-          <img
-            className="w-full"
-            src="https://img-os-static.hoyolab.com/communityWeb/upload/af335b6e68883e7e40237040aa020cf1.png"
-            alt=""
-          />
+          <img className="w-full" src={loggedUser[0].photoURL} alt="" />
         </div>
         <div className="col-span-2 grid grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
           <div className="flex flex-col items-center">
-            <p className="text-2xl font-medium">100</p>
+            <p className="text-2xl font-medium">0</p>
             <p className="font-medium text-gray-400">Followers</p>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-2xl font-medium">100</p>
+            <p className="text-2xl font-medium">0</p>
             <p className="font-medium text-gray-400">Following</p>
           </div>
         </div>

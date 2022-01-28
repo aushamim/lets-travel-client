@@ -13,7 +13,11 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/post" exact={true} element={<Post></Post>}></Route>
+            <Route
+              path="/post/:id"
+              exact={true}
+              element={<Post></Post>}
+            ></Route>
             <Route path="/login" exact={true} element={<Login></Login>}></Route>
             <Route
               path="/dashboard"
